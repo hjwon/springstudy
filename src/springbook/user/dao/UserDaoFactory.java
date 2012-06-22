@@ -1,7 +1,7 @@
 package springbook.user.dao;
 
 /*
- * 1.4 Ioc(Inversion of Contorl)
+ * 1.4 IoC(Inversion of Control)
  * 1.4.1 오브젝트 팩토리
  * 		지금까지는 문제가 많은 초난감 DAO를 깔끔한 구조로 리팩토링.	
  * 		UserDaoTest가 독립적이지 못함.
@@ -19,5 +19,13 @@ public class UserDaoFactory {
 		ConnectionMaker connectionMaker = new DConnectionMaker();
 		UserDao dao = new UserDao(connectionMaker);
 		return dao;
+	}
+
+	/*
+	 * 	다른 DAO의 생성 기능이 추가될 경우, 반복적으로 나타나는 부분을 분리.
+	 */
+	public ConnectionMaker connectionMaker() {
+		ConnectionMaker connectionMaker = new DConnectionMaker();
+		return connectionMaker;
 	}
 }
