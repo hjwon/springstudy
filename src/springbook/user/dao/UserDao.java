@@ -11,7 +11,11 @@ import org.springframework.dao.EmptyResultDataAccessException;
 
 import springbook.user.domain.User;
 
-public class UserDao {
+abstract public class UserDao {
+	
+	abstract protected PreparedStatement makeStatement(Connection c) throws 
+	SQLException;
+
 	private DataSource dataSource;
 	
 	/*
@@ -22,7 +26,7 @@ public class UserDao {
 	public void setDataSource(DataSource dataSource) {
 		this.dataSource = dataSource;
 	}
-
+	
 	public void add(User user) throws ClassNotFoundException, SQLException {
 		Connection c = this.dataSource.getConnection();
 
@@ -69,7 +73,9 @@ public class UserDao {
 		
 		try {
 			c = this.dataSource.getConnection();
-			ps = c.prepareStatement("delete from users");
+			
+			ps = makeStatement(c); 	// 변하는 부분을 메소드로 추출하고 변하지 않는 
+										// 부분에서 호출하도록 만들었다
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			throw e;
