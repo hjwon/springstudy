@@ -72,3 +72,5 @@ springstudy
 >1.8.1 XML 설정
 
 >1.8.2 XML을 이용하는 애플리케이션 컨텍스트
+
+>1.8.3 DataSource 인터페이스로 변환

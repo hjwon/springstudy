@@ -5,23 +5,24 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.sql.DataSource;
+
 import springbook.user.domain.User;
 
 public class UserDao {
-	private ConnectionMaker connectionMaker;
+	private DataSource dataSource;
 	
 	/*
-	 * setter (수정자 메소드)
-	 * 	스프링은 전통적으로 메소드를 이용한 DI 방법 중에서 수정자 메소드를 가장 많이
-	 * 	사용해 왔다. XML을 사용하는 경우에는 자바빈 규약을 따르는 수정자 메소드가
-	 * 	가장 사용하기 편리하다.
+	 * DataSource
+	 * 	자바에서 DB 커넥션을 가져오는 오브젝트의 기능을 추상화해서 비슷한 용도로
+	 *  사용할 수 있게 만들어진 인터페이스
 	 */
-	public void setConnectionMaker(ConnectionMaker connectionMaker) {
-		this.connectionMaker = connectionMaker;
+	public void setDataSource(DataSource dataSource) {
+		this.dataSource = dataSource;
 	}
 
 	public void add(User user) throws ClassNotFoundException, SQLException {
-		Connection c = this.connectionMaker.makeConnection();
+		Connection c = this.dataSource.getConnection();
 
 		PreparedStatement ps = c.prepareStatement(
 			"insert into users(id, name, password) values(?,?,?)");
@@ -36,7 +37,7 @@ public class UserDao {
 	}
 
 	public User get(String id) throws ClassNotFoundException, SQLException {
-		Connection c = this.connectionMaker.makeConnection();
+		Connection c = this.dataSource.getConnection();
 		PreparedStatement ps = c
 				.prepareStatement("select * from users where id = ?");
 		ps.setString(1, id);

@@ -8,20 +8,32 @@ package springbook.user.dao;
  * 		Application Context : IoC 방식을 따라 만들어고 좀 더 확장된 빈 팩토리
  */
 
+import javax.sql.DataSource;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 
 @Configuration	// 애플리케이션 컨텍스트 또는 빈 팩토리가 사용할 설정정보라는 표시 
 public class DaoFactory {
 	
 	@Bean			// 오브젝트 생성을 담당하는 IoC용 메소드라는 표시
 	public UserDao userDao() {
-		/*
-		 * 수정자 메소드 DI를 사용하게 변경
-		 */
 		UserDao dao = new UserDao();
-		dao.setConnectionMaker(connectionMaker());
+		dao.setDataSource(dataSource());
 		return dao;
+	}
+	
+	@Bean
+	public DataSource dataSource() {
+		SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
+		
+		dataSource.setDriverClass(com.mysql.jdbc.Driver.class);
+		dataSource.setUrl("jdbc:mysql://localhost/springbook?characterEncoding=UTF-8");
+		dataSource.setUsername("root");
+		dataSource.setPassword("winter");
+		
+		return dataSource;
 	}
 
 	@Bean
