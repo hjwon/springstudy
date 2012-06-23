@@ -10,8 +10,14 @@ import springbook.user.domain.User;
 public class UserDao {
 	private ConnectionMaker connectionMaker;
 	
-	public UserDao(ConnectionMaker simpleConnectionMaker) {
-		this.connectionMaker = simpleConnectionMaker;
+	/*
+	 * setter (수정자 메소드)
+	 * 	스프링은 전통적으로 메소드를 이용한 DI 방법 중에서 수정자 메소드를 가장 많이
+	 * 	사용해 왔다. XML을 사용하는 경우에는 자바빈 규약을 따르는 수정자 메소드가
+	 * 	가장 사용하기 편리하다.
+	 */
+	public void setConnectionMaker(ConnectionMaker connectionMaker) {
+		this.connectionMaker = connectionMaker;
 	}
 
 	public void add(User user) throws ClassNotFoundException, SQLException {

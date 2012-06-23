@@ -16,8 +16,11 @@ public class DaoFactory {
 	
 	@Bean			// 오브젝트 생성을 담당하는 IoC용 메소드라는 표시
 	public UserDao userDao() {
-		ConnectionMaker connectionMaker = new DConnectionMaker();
-		UserDao dao = new UserDao(connectionMaker);
+		/*
+		 * 수정자 메소드 DI를 사용하게 변경
+		 */
+		UserDao dao = new UserDao();
+		dao.setConnectionMaker(connectionMaker());
 		return dao;
 	}
 
