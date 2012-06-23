@@ -5,6 +5,7 @@ import static org.junit.Assert.assertThat;
 
 import java.sql.SQLException;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.JUnitCore;
 import org.springframework.context.ApplicationContext;
@@ -14,22 +15,24 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import springbook.user.domain.User;
 
 public class UserDaoTest {
-	/*
-	 * JUnit : 자바 테스팅 프레임워크
-	 * 	테스트가 main() 메소드로 만들어졌다는 건 제어권을 직접 갖는다는 의미.
-	 * 	JUnit 프레임워크가 요구하는 두 가지 조건
-	 * 	1. 메소드가 public으로 선언되어야 함
-	 * 	2. @Test라는 애노테이션이 필요
-	 */
-	@Test
-	public void addAndGet() throws ClassNotFoundException, SQLException {
+	private UserDao dao;
+	private User user1;
+	private User user2;
+	private User user3;
+	
+	@Before	// @Test 메소드가 실행되기 전에 먼저 실행돼야 하는 메소드를 정의한다
+	public void setUp() {
 		ApplicationContext context = new GenericXmlApplicationContext(
 				"applicationContext.xml");
+		this.dao = context.getBean("userDao", UserDao.class);
 		
-		UserDao dao = context.getBean("userDao", UserDao.class);
-		User user1 = new User("gyumee", "박성철", "springno1");
-		User user2 = new User("leegw700", "이길원", "springno2");
-		
+		this.user1 = new User("gyumee", "박성철", "springno1");
+		this.user2 = new User("leegw700", "이길원", "springno2");
+		this.user3 = new User("bumjin", "박범진", "springno3");
+	}
+	
+	@Test
+	public void addAndGet() throws ClassNotFoundException, SQLException {
 		dao.deleteAll();
 		assertThat(dao.getCount(), is(0));
 		
@@ -48,14 +51,6 @@ public class UserDaoTest {
 	
 	@Test
 	public void count() throws ClassNotFoundException, SQLException {
-		ApplicationContext context = new GenericXmlApplicationContext(
-				"applicationContext.xml");
-		
-		UserDao dao = context.getBean("userDao", UserDao.class);
-		User user1 = new User("gyumee", "박성철", "springno1");
-		User user2 = new User("leegw700", "이길원", "springno2");
-		User user3 = new User("bumjin", "박범진", "springno3");
-		
 		dao.deleteAll();
 		assertThat(dao.getCount(), is(0));
 		
@@ -71,10 +66,6 @@ public class UserDaoTest {
 	
 	@Test(expected=EmptyResultDataAccessException.class)
 	public void getUserFailure() throws ClassNotFoundException, SQLException {
-		ApplicationContext context = new GenericXmlApplicationContext(
-				"applicationContext.xml");
-		
-		UserDao dao = context.getBean("userDao", UserDao.class);
 		dao.deleteAll();
 		assertThat(dao.getCount(), is(0));
 		
