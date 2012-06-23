@@ -35,10 +35,4 @@ public class DaoFactory {
 		
 		return dataSource;
 	}
-
-	@Bean
-	public ConnectionMaker connectionMaker() {
-		ConnectionMaker connectionMaker = new DConnectionMaker();
-		return connectionMaker;
-	}
 }
