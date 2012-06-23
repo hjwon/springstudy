@@ -13,3 +13,6 @@ springstudy
 
 >2.1.3 UserDaoTest의 문제점
 
+###2.2 UserDaoTest 개선
+
+>2.2.1 테스트 검증의 자동화
