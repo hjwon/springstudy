@@ -24,3 +24,5 @@ springstudy
 ###3.4 컨텍스트와 DI
 
 >3.4.1 jdbcContext의 분리
+
+>3.4.2 JdbcContext의 특별한 DI
