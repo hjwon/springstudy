@@ -34,3 +34,7 @@ springstudy
 >3.5.2 편리한 콜백의 재활용
 
 >3.5.3 템플릿/콜백의 응용
+
+###3.6 스프링의 JdbcTemplate
+
+>3.6.1 update()
