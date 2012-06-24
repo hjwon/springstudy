@@ -11,11 +11,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 
 import springbook.user.domain.User;
 
-abstract public class UserDao {
-	
-	abstract protected PreparedStatement makeStatement(Connection c) throws 
-	SQLException;
-
+public class UserDao {
 	private DataSource dataSource;
 	
 	/*
@@ -74,8 +70,9 @@ abstract public class UserDao {
 		try {
 			c = this.dataSource.getConnection();
 			
-			ps = makeStatement(c); 	// 변하는 부분을 메소드로 추출하고 변하지 않는 
-										// 부분에서 호출하도록 만들었다
+			StatementStrategy strategy = new DeleteAllStatement();
+			ps = strategy.makePreparedStatement(c);
+			
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			throw e;
