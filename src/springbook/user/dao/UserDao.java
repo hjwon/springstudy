@@ -29,12 +29,6 @@ public class UserDao {
 		
 		// add() 메소드 내부에 선언된 로컬 클래스
 		class AddStatement implements StatementStrategy {
-			User user;
-			
-			public AddStatement(User user) {
-				this.user = user;
-			}
-			
 			public PreparedStatement makePreparedStatement(Connection c)
 					throws SQLException {
 				PreparedStatement ps = 
@@ -48,7 +42,7 @@ public class UserDao {
 			}
 		}
 		
-		StatementStrategy st = new AddStatement(user);
+		StatementStrategy st = new AddStatement();
 		jdbcContextWithStatementStrategy(st);
 	}
 
