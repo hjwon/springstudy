@@ -38,3 +38,5 @@ springstudy
 ###3.6 스프링의 JdbcTemplate
 
 >3.6.1 update()
+
+>3.6.2 queryForInt()
