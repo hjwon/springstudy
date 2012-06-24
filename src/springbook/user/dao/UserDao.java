@@ -14,17 +14,18 @@ import springbook.user.domain.User;
 public class UserDao {
 	private DataSource dataSource;
 	
-	/*
-	 * DataSource
-	 * 	자바에서 DB 커넥션을 가져오는 오브젝트의 기능을 추상화해서 비슷한 용도로
-	 *  사용할 수 있게 만들어진 인터페이스
-	 */
 	public void setDataSource(DataSource dataSource) {
 		this.dataSource = dataSource;
 	}
 	
+	private JdbcContext jdbcContext;
+	
+	public void setJdbcContext(JdbcContext jdbcContext) {
+		this.jdbcContext = jdbcContext;
+	}
+	
 	public void add(final User user) throws ClassNotFoundException, SQLException {
-		jdbcContextWithStatementStrategy(
+		this.jdbcContext.workWithStatementStrategy(
 				new StatementStrategy() {
 					public PreparedStatement makePreparedStatement(Connection c)
 							throws SQLException {
@@ -67,7 +68,7 @@ public class UserDao {
 	}
 
 	public void deleteAll() throws SQLException {
-		jdbcContextWithStatementStrategy(
+		this.jdbcContext.workWithStatementStrategy(
 				new StatementStrategy() {
 					public PreparedStatement makePreparedStatement(Connection c) throws
 							SQLException {
@@ -112,28 +113,6 @@ public class UserDao {
 				} catch (SQLException e) {
 				}
 			}
-		}
-	}
-	
-	/*
-	 * StatementStrategy stmt : 클라이언트가 컨텍스트를 호출할 때 넘겨줄 전략 파라미터
-	 */
-	public void jdbcContextWithStatementStrategy(StatementStrategy stmt) throws 
-			SQLException {
-		Connection c = null;
-		PreparedStatement ps = null;
-		
-		try {
-			c = dataSource.getConnection();
-			
-			ps = stmt.makePreparedStatement(c);
-			
-			ps.executeUpdate();
-		} catch (SQLException e) {
-			throw e;
-		} finally {
-			if (ps != null) { try { ps.close(); } catch (SQLException e) {} }
-			if (c != null) { try { c.close(); } catch (SQLException e) {} }
 		}
 	}
 
