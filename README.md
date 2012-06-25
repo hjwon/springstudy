@@ -40,3 +40,5 @@ springstudy
 >3.6.1 update()
 
 >3.6.2 queryForInt()
+
+>3.6.3 queryForObject()
