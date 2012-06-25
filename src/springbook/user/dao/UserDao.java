@@ -7,12 +7,8 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
-import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementCreator;
-import org.springframework.jdbc.core.ResultSetExtractor;
-
 import springbook.user.domain.User;
 
 public class UserDao {
@@ -60,18 +56,7 @@ public class UserDao {
 	}
 	
 	public int getCount() throws SQLException {
-		return this.jdbcTemplate.query(new PreparedStatementCreator() {
-			public PreparedStatement createPreparedStatement(Connection con) 
-					throws SQLException {
-				return con.prepareStatement("select count(*) from users");
-			}
-		}, new ResultSetExtractor<Integer>() {
-			public Integer extractData(ResultSet rs) throws SQLException, 
-					DataAccessException {
-				rs.next();
-				return rs.getInt(1);
-			}
-		});
+		return this.jdbcTemplate.queryForInt("select count(*) from users");
 	}
 
 }
