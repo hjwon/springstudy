@@ -10,3 +10,5 @@ springstudy
 >5.1.1 필드 추가
 
 >5.1.2 사용자 수정 기능 추가
+
+>5.1.3 UserService.upgradeLevels()
