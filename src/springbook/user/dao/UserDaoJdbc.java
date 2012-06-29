@@ -60,4 +60,13 @@ public class UserDaoJdbc implements UserDao {
 				this.userMapper);
 	}
 
+	public void update(User user) {
+		// TODO Auto-generated method stub
+		this.jdbcTemplate.update(
+				"update users set name = ?, password = ?, level = ?, login = ?, " + 
+				"recommend = ? where id = ?", user.getName(), user.getPassword(), 
+				user.getLevel().intValue(), user.getLogin(), user.getRecommend(),
+				user.getId());
+	}
+
 }
